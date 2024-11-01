@@ -4,7 +4,7 @@ setup(
     name='fetchio',
     version='1.0.0',
     author='Mhammed Talhaouy',
-    author_email='tal7apuy@gmail.com',
+    author_email='tal7auuy@gmail.com',
     description='A simple HTTP library in Python similar to JavaScript fetch.',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',

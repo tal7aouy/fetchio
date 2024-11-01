@@ -1,6 +1,6 @@
 # 📦 Fetch HTTP Library
 
-Welcome to the **Fetch HTTP Library**! This library provides a simple and efficient way to make HTTP requests in Python. It supports GET, POST, PUT, and DELETE methods, and handles responses gracefully.
+**Fetch HTTP Library**! is a library that provides a simple and efficient way to make HTTP requests in Python. It supports GET, POST, PUT, and DELETE methods, and handles responses gracefully.
 
 ## 🚀 Features
 
@@ -48,8 +48,7 @@ print(response)
 
 ## 🧪 Running Tests
 
-To run the tests, make sure you have `pytest` installed:
-Then, run the tests with:
+To run the tests, make sure you have `pytest` installed. Then, run the tests with:
 
 ```sh
 pytest

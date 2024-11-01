@@ -1,5 +1,7 @@
 import requests
 import logging
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 
 class Http:
     _instance = None
@@ -13,26 +15,30 @@ class Http:
     def __init__(self):
         if not self._initialized:
             self.logger = logging.getLogger(__name__)
+            self.session = requests.Session()
+            retries = Retry(total=5, backoff_factor=1, status_forcelist=[502, 503, 504])
+            self.session.mount('http://', HTTPAdapter(max_retries=retries))
+            self.session.mount('https://', HTTPAdapter(max_retries=retries))
             self._initialized = True
 
-    def get(self, url, params=None):
-        self.logger.debug(f"GET request to {url} with params {params}")
-        response = requests.get(url, params=params)
+    def get(self, url, params=None, headers=None, timeout=10):
+        self.logger.debug(f"GET request to {url} with params {params} and headers {headers}")
+        response = self.session.get(url, params=params, headers=headers, timeout=timeout)
         return self._handle_response(response)
 
-    def post(self, url, data=None, json=None):
-        self.logger.debug(f"POST request to {url} with data {data} and json {json}")
-        response = requests.post(url, data=data, json=json)
+    def post(self, url, data=None, json=None, headers=None, timeout=10):
+        self.logger.debug(f"POST request to {url} with data {data}, json {json}, and headers {headers}")
+        response = self.session.post(url, data=data, json=json, headers=headers, timeout=timeout)
         return self._handle_response(response)
 
-    def put(self, url, data=None, json=None):
-        self.logger.debug(f"PUT request to {url} with data {data} and json {json}")
-        response = requests.put(url, data=data, json=json)
+    def put(self, url, data=None, json=None, headers=None, timeout=10):
+        self.logger.debug(f"PUT request to {url} with data {data}, json {json}, and headers {headers}")
+        response = self.session.put(url, data=data, json=json, headers=headers, timeout=timeout)
         return self._handle_response(response)
 
-    def delete(self, url):
-        self.logger.debug(f"DELETE request to {url}")
-        response = requests.delete(url)
+    def delete(self, url, headers=None, timeout=10):
+        self.logger.debug(f"DELETE request to {url} with headers {headers}")
+        response = self.session.delete(url, headers=headers, timeout=timeout)
         return self._handle_response(response)
 
     def _handle_response(self, response):
